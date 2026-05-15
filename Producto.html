@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./CSS/styles.css" rel="stylesheet">
+    <link href="./CSS/Inventario.css" rel="stylesheet">
+    <link href="./CSS/modal.css" rel="stylesheet">
+    <link href="./CSS/BotonModoOscuro.css" rel="stylesheet">
+
+    
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-dark border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">
+                <div class="profile-pic bg-secondary rounded-circle"></div>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="./layout.html" class="list-group-item list-group-item-action bg-dark text-white">Ventas</a>
+                <a href="./cotizaciones.html" class="list-group-item list-group-item-action bg-dark text-white">Cotizaciones</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" data-toggle="collapse" data-target="#inventarioSubmenu" aria-expanded="false" aria-controls="inventarioSubmenu">Inventario</a>
+                <div class="collapse" id="inventarioSubmenu">
+                    <a href="./Producto.html" class="list-group-item list-group-item-action bg-dark text-white ml-3">Productos</a>
+                    <a href="./Categorias.html" class="list-group-item list-group-item-action bg-dark text-white ml-3">Categorías</a>
+                </div>
+                <a href="./informe.html" class="list-group-item list-group-item-action bg-dark text-white">Informes</a>
+                <a href="./contratos.html" class="list-group-item list-group-item-action bg-dark text-white">Contratos</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="w-100">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn btn-primary" id="menu-toggle">☰</button>
+                <div class="ml-auto d-flex align-items-center">
+                    <!-- Botón modo oscuro -->
+                    <div id="toggle" class="mr-3">
+                        <i class="indicator"></i>
+                    </div>
+                    <!-- Dropdown de usuario -->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ☰
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Usuario</a>
+                            <a class="dropdown-item" href="Login.html">Cerrar sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <br>
+            <section id="ventas" class="section active bg-info text-white p-4">
+                <div class="container-fluid">
+                    <h1 class="mb-4">Productos</h1>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Stock</th>
+                                <th>Precio</th>
+                                <th>Categoría</th>
+                                <th>Fecha</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- La tabla se cargará dinámicamente con JavaScript -->
+                        </tbody>
+                    </table>
+                    <div class="actions">
+                        <button  type="submit" class="btn btn-success" data-toggle="modal" data-target="#productModal" data-action="add">Agregar</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Modal para agregar productos -->
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalLabel">Agregar Producto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <input type="hidden" id="productoId"> <!-- Campo oculto para el ID del producto -->
+                        <div class="form-group">
+                            <label for="modalNombre">Nombre del Producto</label>
+                            <input type="text" class="form-control" id="modalNombre" placeholder="Nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalStock">Stock</label>
+                            <input type="number" class="form-control" id="modalStock" placeholder="Stock" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalPrecio">Precio</label>
+                            <input type="number" class="form-control" id="modalPrecio" placeholder="Precio" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalFecha">Fecha de Creación</label>
+                            <input type="date" class="form-control" id="modalFecha" readonly>
+                            <small class="form-text text-muted">La fecha se establece automáticamente</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalCategoria">Categoría</label>
+                            <select class="form-control" id="modalCategoria">
+                                <!-- Las opciones se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                        <!-- Botón para guardar el producto -->
+                        <button type="submit" class="btn btn-primary" id="saveProduct">Guardar Producto</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#productModal -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Alternar la navegación lateral
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
+            // Cerrar cualquier submenú abierto al hacer clic fuera
+            $(document).click(function (e) {
+                if (!$(e.target).closest('#sidebar-wrapper').length) {
+                    $('.collapse').collapse('hide');
+                }
+            });
+
+            // Abrir el modal para agregar o editar productos
+            $('#productModal').on('show.bs.modal', function (e) {
+                var boton = $(e.relatedTarget); // Botón que activó el modal
+                var accion = boton.data('action'); // Extraer acción del atributo data-action
+                var modal = $(this);
+                
+                if (accion === 'edit') {
+                    modal.find('.modal-title').text('Editar Producto');
+                } else if (accion === 'add') {
+                    modal.find('.modal-title').text('Agregar Producto');
+                    // Limpiar el formulario
+                    document.getElementById('productoId').value = '';
+                    document.getElementById('modalNombre').value = '';
+                    document.getElementById('modalStock').value = '';
+                    document.getElementById('modalPrecio').value = '';
+                    // Seleccionar la opción por defecto en el select de categorías
+                    document.getElementById('modalCategoria').selectedIndex = 0;
+                }
+                
+                // Cargar categorías cuando se abre el modal
+                cargarCategorias();
+            });
+            // El botón saveProduct ahora funciona a través del formulario
+            // Esta lógica está implementada en el listener del formulario productForm
+            // Los eventos para los botones edit-button y delete-button
+            // se configuran después de cargar los productos
+        });
+    </script>
+     
+    <!-- /#Boton modo oscuro -->
+    <script>
+        const body = document.querySelector('body');
+        const sectionVentas = document.querySelector('#ventas'); // Selección del section de ventas
+        const toggle = document.getElementById('toggle');
+
+        toggle.onclick = function () {
+            toggle.classList.toggle('active');
+            // Cambiar el color del fondo del body
+            body.classList.toggle('modo-oscuro'); 
+            // Cambiar el color del fondo del section
+            sectionVentas.classList.toggle('modo-oscuro-section'); 
+        }
+    </script>
+  <!-- /#Script de llamados a la base de datos -->  
+    <script>
+        const API_URL = 'http://localhost:3002/Productos';
+
+        // Cargar productos desde la API
+        async function cargarProductos() {
+            try {
+                const response = await fetch(API_URL);
+                const productos = await response.json();
+                
+                // Cargar las categorías para obtener sus nombres
+                const categoriasResponse = await fetch('http://localhost:3002/Categorias');
+                const categorias = await categoriasResponse.json();
+                
+                // Crear un mapa de ID de categoría a nombre para búsqueda rápida
+                const categoriasMap = {};
+                categorias.forEach(cat => {
+                    categoriasMap[cat.id_categoria] = cat.nombre;
+                });
+                
+                const productosTable = document.querySelector('tbody');
+                productosTable.innerHTML = '';
+
+                productos.forEach(producto => {
+                    // Obtener el nombre de la categoría usando el id_categoria del producto
+                    const nombreCategoria = producto.id_categoria ? categoriasMap[producto.id_categoria] || 'Sin categoría' : 'Sin categoría';
+                    
+                    // Formatear la fecha si existe
+                    let fechaFormateada = 'Sin fecha';
+                    if (producto.fecha_creacion) {
+                        const fecha = new Date(producto.fecha_creacion);
+                        fechaFormateada = fecha.toLocaleDateString('es-ES', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        });
+                    }
+                    
+                    const row = `
+                        <tr>
+                            <td>${producto.id_producto}</td>
+                            <td>${producto.nombre}</td>
+                            <td>${producto.stock}</td>
+                            <td>${producto.precio}</td>
+                            <td>${nombreCategoria}</td>
+                            <td>${fechaFormateada}</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm edit-button" data-id="${producto.id_producto}" data-nombre="${producto.nombre}" data-stock="${producto.stock}" data-precio="${producto.precio}" data-categoria="${producto.id_categoria || ''}">Editar</button>
+                                <button class="btn btn-danger btn-sm delete-button" data-id="${producto.id_producto}">Eliminar</button>
+                            </td>
+                        </tr>
+                    `;
+                    productosTable.innerHTML += row;
+                });
+
+                // Agregar eventos a los botones de editar y eliminar
+                document.querySelectorAll('.edit-button').forEach(button => {
+                    button.addEventListener('click', mostrarFormularioEditar);
+                });
+                document.querySelectorAll('.delete-button').forEach(button => {
+                    button.addEventListener('click', eliminarProducto);
+                });
+            } catch (error) {
+                console.error('Error al cargar los productos:', error);
+            }
+        }
+
+        // Agregar un nuevo producto
+        async function agregarProducto(event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById('modalNombre').value;
+            const stock = document.getElementById('modalStock').value;
+            const precio = document.getElementById('modalPrecio').value;
+            const id_categoria = document.getElementById('modalCategoria').value;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre, stock, precio, id_categoria })
+                });
+
+                if (response.ok) {
+                    alert('Producto agregado correctamente');
+                    $('#productModal').modal('hide');
+                    cargarProductos(); // Recargar la lista de productos
+                } else {
+                    alert('Error al agregar el producto');
+                }
+            } catch (error) {
+                console.error('Error al agregar el producto:', error);
+            }
+        }
+
+        // Mostrar formulario para editar un producto
+        function mostrarFormularioEditar(event) {
+            const button = event.target;
+            const id = button.dataset.id;
+            const nombre = button.dataset.nombre;
+            const stock = button.dataset.stock;
+            const precio = button.dataset.precio;
+            const categoria = button.dataset.categoria;
+
+            document.getElementById('productoId').value = id;
+            document.getElementById('modalNombre').value = nombre;
+            document.getElementById('modalStock').value = stock;
+            document.getElementById('modalPrecio').value = precio;
+            
+            // Seleccionar la categoría correspondiente en el select
+            if (categoria) {
+                const categoriaSelect = document.getElementById('modalCategoria');
+                for (let i = 0; i < categoriaSelect.options.length; i++) {
+                    if (categoriaSelect.options[i].value === categoria) {
+                        categoriaSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            $('#productModal').modal('show');
+        }
+
+        // Editar un producto
+        async function editarProducto(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('productoId').value;
+            const nombre = document.getElementById('modalNombre').value;
+            const stock = document.getElementById('modalStock').value;
+            const precio = document.getElementById('modalPrecio').value;
+            const id_categoria = document.getElementById('modalCategoria').value;
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre, stock, precio, id_categoria })
+                });
+
+                if (response.ok) {
+                    alert('Producto actualizado correctamente');
+                    $('#productModal').modal('hide');
+                    cargarProductos(); // Recargar la lista de productos
+                } else {
+                    alert('Error al actualizar el producto');
+                }
+            } catch (error) {
+                console.error('Error al actualizar el producto:', error);
+            }
+        }
+
+        // Eliminar un producto
+        async function eliminarProducto(event) {
+            const id = event.target.dataset.id;
+
+            if (!confirm('¿Estás seguro de que deseas eliminar este producto?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+
+                if (response.ok) {
+                    alert('Producto eliminado correctamente');
+                    cargarProductos(); // Recargar la lista de productos
+                } else {
+                    alert('Error al eliminar el producto');
+                }
+            } catch (error) {
+                console.error('Error al eliminar el producto:', error);
+            }
+        }
+
+        // Cargar categorías desde la API
+        async function cargarCategorias() {
+            try {
+                const response = await fetch('http://localhost:3002/Categorias'); // URL de la API
+                const categorias = await response.json(); // Obtener las categorías como JSON
+                const categoriaSelect = document.getElementById('modalCategoria');
+                categoriaSelect.innerHTML = ''; // Limpiar las opciones existentes
+
+                // Agregar una opción por defecto
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Seleccione una categoría';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                categoriaSelect.appendChild(defaultOption);
+
+                // Agregar las categorías obtenidas de la API
+                categorias.forEach(categoria => {
+                    const option = document.createElement('option');
+                    option.value = categoria.id_categoria; // Suponiendo que la tabla tiene un campo 'id_categoria'
+                    option.textContent = categoria.nombre; // Suponiendo que la tabla tiene un campo 'nombre'
+                    categoriaSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error al cargar las categorías:', error);
+            }
+        }
+
+        // Inicializar eventos
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarCategorias();
+            cargarProductos();
+            document.getElementById('productForm').addEventListener('submit', (event) => {
+                const id = document.getElementById('productoId').value;
+                if (id) {
+                    editarProducto(event);
+                } else {
+                    agregarProducto(event);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

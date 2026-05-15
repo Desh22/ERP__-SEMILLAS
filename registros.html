@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./CSS/styles.css" rel="stylesheet">
+    <link href="./CSS/Inventario.css" rel="stylesheet">
+    <link href="./CSS/modal.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Barra lateral -->
+        <div class="bg-dark border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">
+                <div class="profile-pic bg-secondary rounded-circle"></div>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="./layout.html" class="list-group-item list-group-item-action bg-dark text-white">Ventas</a>
+                <a href="./cotizaciones.html" class="list-group-item list-group-item-action bg-dark text-white">Cotizaciones</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" data-toggle="collapse" data-target="#inventarioSubmenu" aria-expanded="false" aria-controls="inventarioSubmenu">Inventario</a>
+                <div class="collapse" id="inventarioSubmenu">
+                    <a href="./Producto.html" class="list-group-item list-group-item-action bg-dark text-white ml-3">Productos</a>
+                    <a href="./Inventario.html" class="list-group-item list-group-item-action bg-dark text-white ml-3">Categorías</a>
+                </div>
+                <a href="./informe.html" class="list-group-item list-group-item-action bg-dark text-white">Informes</a>
+                <a href="./contratos.html" class="list-group-item list-group-item-action bg-dark text-white">Contratos</a>
+            </div>
+        </div>
+        <!-- /#Barra lateral -->
+
+        <!-- Contenido de la página -->
+        <div id="page-content-wrapper" class="w-100">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn btn-primary" id="menu-toggle">☰</button>
+                <div class="ml-auto">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ☰
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Usuario</a>
+                            <a class="dropdown-item" href="Login.html">Cerrar sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <br>
+            <section id="ventas" class="section active bg-info text-white p-4">
+                <div class="container-fluid">
+                    <h1 class="mb-4" style="color: black;">Categorias</h1>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> </td> 
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td>
+                                    <button data-toggle="modal" data-target="#productModal" data-action="edit" class="btn btn-primary btn-sm edit-button">Editar</button>
+                                    <button class="btn btn-danger btn-sm delete-button">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="actions">
+                        <button class="btn btn-success" data-toggle="modal" data-target="#productModal" data-action="add">Agregar</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- /#Contenido de la página -->
+    </div>
+
+    <!-- Modal para agregar Operadores -->
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalLabel">Agregar Operador</h5> 
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <form id="productForm">
+                        <div class="form-group">
+                            <label for="modalNombre">Nombre del Operador</label>
+                            <input type="text" class="form-control" id="modalNombre" placeholder="Nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="modalNombre">Rol del Operador</label>
+                            <input type="text" class="form-control" id="modalNombre" placeholder="Rol">
+                        </div>
+                        <div class="form-group">
+                            <label for="modalFecha">Fecha de Creación</label>
+                            <input type="date" class="form-control" id="modalFecha">
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#Operador Modal -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+
+</html>
